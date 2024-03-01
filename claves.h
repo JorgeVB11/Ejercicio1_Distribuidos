@@ -1,7 +1,7 @@
 #ifndef CLAVES_H
 #define CLAVES_H
 
-/**
+/**Codigo operacion:0
  * @brief Esta llamada permite inicializar el servicio de elementos clave-valor1-valor2.
  * Mediante este servicio se destruyen todas las tuplas que estuvieran almacenadas previamente.
  * 
@@ -11,7 +11,7 @@
  */
 int init();
 
-/**Codigo operacion:0
+/**Codigo operacion:1
  * @brief Este servicio inserta el elemento <key, value1, value2>. El vector correspondiente al valor
  * 2 vendrá dado por la dimensión del vector (N_Value2) y el vector en si (V_value2). El servicio
  * devuelve 0 si se insertó con éxito y -1 en caso de error. Se considera error, intentar insertar una
@@ -30,7 +30,7 @@ int init();
  */
 int set_value(int key, char *value1, int N_value2, double *V_value2);
 
-/**Codigo operacion:1
+/**Codigo operacion:2
  * @brief Este servicio permite obtener los valores asociados a la clave key. La cadena de caracteres
  * asociada se devuelve en value1. En N_Value2 se devuelve la dimensión del vector asociado al
  * valor 2 y en V_value2 las componentes del vector. Tanto value1 como V_value2 tienen que tener
@@ -50,24 +50,37 @@ int set_value(int key, char *value1, int N_value2, double *V_value2);
  */
 int get_value(int key, char *value1, int *N_value2, double *V_value2);
 
-/**Codigo operacion:2
- * @brief Este servicio permite modificar los valores asociados a la clave key. La función devuelve 0 en caso
- * de éxito y -1 en caso de error, por ejemplo, si no existe un elemento con dicha clave o si se
- * produce un error en las comunicaciones. También se devolverá -1 si el valor N_value2 está fuera
- * de rango.
- * 
- * 
+
+
+/**Codigo operacion:3
+ * @brief Este servicio permite borrar el elemento cuya clave es key. La
+ * función devuelve 0 en caso de éxito y -1 en caso de error. En caso de que la clave no exista
+ * también se devuelve -1.
+ *
  * @param key clave.
- * @param value1 valor1 [256].
- * @param N_value2 dimensión del vector V_value2 [1-32].
- * @param V_value2 vector de doubles [32].
- * @return int El servicio devuelve 0 si se insertó con éxito y -1 en caso de error.
- * @retval 0 si se modificó con éxito.
+ * @return int La función devuelve 0 en caso de éxito y -1 en caso de error.
+ * @retval 0 en caso de éxito.
  * @retval -1 en caso de error.
  */
 int delete_key(int key);
 
-/**Codigo operacion:3
+/**Codigo operacion:4
+* @brief Este servicio permite modificar los valores asociados a la clave key. La función devuelve 0 en caso
+* de éxito y -1 en caso de error, por ejemplo, si no existe un elemento con dicha clave o si se
+* produce un error en las comunicaciones. También se devolverá -1 si el valor N_value2 está fuera
+* de rango.
+*
+*
+* @param key clave.
+* @param value1 valor1 [256].
+* @param N_value2 dimensión del vector V_value2 [1-32].
+* @param V_value2 vector de doubles [32].
+* @return int El servicio devuelve 0 si se insertó con éxito y -1 en caso de error.
+* @retval 0 si se modificó con éxito.
+* @retval -1 en caso de error.
+*/
+int modify_value(int key, char *value1, int N_value2, double *V_value2);
+/**Codigo operacion:5
  * @brief Este servicio permite determinar si existe un elemento con clave key.
  * La función devuelve 1 en caso de que exista y 0 en caso de que no exista. En caso de error se
  * devuelve -1. Un error puede ocurrir en este caso por un problema en las comunicaciones.
@@ -79,19 +92,6 @@ int delete_key(int key);
  * @retval 0 en caso de que no exista.
  * @retval -1 en caso de error.
  */
-int modify_value(int key, char *value1, int N_value2, double *V_value2);
-
-/**Codigo operacion:4
- * @brief Este servicio permite borrar el elemento cuya clave es key. La
- * función devuelve 0 en caso de éxito y -1 en caso de error. En caso de que la clave no exista
- * también se devuelve -1.
- * 
- * @param key clave.
- * @return int La función devuelve 0 en caso de éxito y -1 en caso de error.
- * @retval 0 en caso de éxito.
- * @retval -1 en caso de error.
- */
 
 int exist(int key);
-/**Codigo operacion:5*/
 #endif

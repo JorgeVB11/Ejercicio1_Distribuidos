@@ -1,4 +1,6 @@
-/*3. Desarrollar un ejemplo de código de un cliente (cliente.c) que utilice las funciones anteriores.
+/*
+ *
+ * 3. Desarrollar un ejemplo de código de un cliente (cliente.c) que utilice las funciones anteriores.
 El ejecutable de este programa tiene que generarse empleando la biblioteca desarrollada en el
 apartado anterior, es decir, el código de este cliente debe enlazarse con la biblioteca dinámica
 anterior. Este cliente se utilizará para probar el servicio desarrollado y deberá realizar las
