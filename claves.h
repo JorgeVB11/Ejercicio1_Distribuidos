@@ -3,8 +3,9 @@
 #define MQ_NAME "my_queue"
 
 typedef struct{
+    int cod_operacion;
     int clave;
-    char valor1[255];
+    char valor1[256];
     int N_value2;
     double V_value2[32];
 }Mensaje;

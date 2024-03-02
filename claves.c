@@ -18,7 +18,7 @@ int init(){
     mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
     //Si he entendido bien los flags de la 2ª posicion son mis permisos y los de la 3ª posicion son los permisos para el resto de usuarios.
     Mensaje struct_to_send;
-    struct_to_send.clave = 0;
+    struct_to_send.cod_operacion = 0;
     mq_send(queue, (char*) &struct_to_send, sizeof(struct_to_send), 1);
     mq_close(queue);
     mq_unlink(MQ_NAME);
