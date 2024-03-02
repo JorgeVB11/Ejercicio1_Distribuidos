@@ -1,6 +1,19 @@
 #ifndef CLAVES_H
 #define CLAVES_H
+#define MQ_NAME "my_queue"
 
+typedef struct{
+    int clave;
+    char valor1[255];
+    int N_value2;
+    double V_value2[32];
+}Mensaje;
+struct mq_attr atributos = {
+        .mq_flags = 0;
+        .mq_maxmsg = 10; //no sé si hay nº max de mensajes pongo este por poner algo.
+        .mq_curmsgs = 0;
+        .mq_msgsize =  sizeof(Mensaje);
+};
 /**Codigo operacion:0
  * @brief Esta llamada permite inicializar el servicio de elementos clave-valor1-valor2.
  * Mediante este servicio se destruyen todas las tuplas que estuvieran almacenadas previamente.

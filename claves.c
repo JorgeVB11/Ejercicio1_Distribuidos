@@ -1,7 +1,10 @@
 #include <claves.h>
-#include <stdio.h>
+#include <fcntl.h>
 #include <mqueue.h>
+#include <sys/stat.h>
+
 #include <stdlib.h>
+#include <stdio.h>
 /*Desarrollar el código que implementa los servicios anteriores (init, set_value, get_value,
 delete_key, modify_value y exist). El código se desarrollará sobre el archivo con nombre
 claves.c. Este es el código que ofrece la interfaz a los clientes y se encarga de implementar
@@ -12,7 +15,17 @@ investigar y buscar la forma de crear dicha biblioteca.*/
 // Created by jvinas on 2/26/24.
 
 int init(){
-
+    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    //Si he entendido bien los flags de la 2ª posicion son mis permisos y los de la 3ª posicion son los permisos para el resto de usuarios.
+    Mensaje struct_to_send;
+    struct_to_send.clave = 0;
+    mq_send(queue, (char*) &struct_to_send, sizeof(struct_to_send), 1);
+    mq_close(queue);
+    mq_unlink(MQ_NAME);
+    return  0;
+    /* ¿Lo de eliminar los archivos se hace aquí? Que yo aquí ns donde están los archivos para poner el comando para eliminar
+    luego ¿los permisos para la cola deben ser tanto de crear como de escribir desde aquí, no? Y luego el que recibe
+    tiene permisos para editar y eso */
 }
 /*int set_value(int key, char *value1, int N_value2, double *V_value2);
 int get_value(int key, char *value1, int *N_value2, double *V_value2);
