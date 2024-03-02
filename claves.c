@@ -27,8 +27,61 @@ int init(){
     luego ¿los permisos para la cola deben ser tanto de crear como de escribir desde aquí, no? Y luego el que recibe
     tiene permisos para editar y eso */
 }
-/*int set_value(int key, char *value1, int N_value2, double *V_value2);
-int get_value(int key, char *value1, int *N_value2, double *V_value2);
-int delete_key(int key);
-int modify_value(int key, char *value1, int N_value2, double *V_value2);
-int exist(int key);*/
+int set_value(int key, char *value1, int N_value2, double *V_value2){
+    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    Mensaje struct_to_send;
+    struct_to_send.cod_operacion = 1;
+    struct_to_send.clave = key;
+    struct_to_send.value1 = value1;
+    struct_to_send.N_value2 = N_value2;
+    struct_to_send.V_value2 = V_value2;
+    mq_send(queue, (char*) &struct_to_send, sizeof(struct_to_send), 1);
+    mq_close(queue);
+    mq_unlink(MQ_NAME);
+    return  0;
+}
+int get_value(int key, char *value1, int *N_value2, double *V_value2){
+    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    Mensaje struct_to_send;
+    struct_to_send.cod_operacion = 2;
+    struct_to_send.clave = key;
+    struct_to_send.value1 = value1;
+    struct_to_send.N_value2 = N_value2;
+    struct_to_send.V_value2 = V_value2;
+    mq_send(queue, (char*) &struct_to_send, sizeof(struct_to_send), 1);
+    mq_close(queue);
+    mq_unlink(MQ_NAME);
+    return  0;
+}
+int delete_key(int key){
+    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    Mensaje struct_to_send;
+    struct_to_send.cod_operacion = 3;
+    struct_to_send.clave = key;
+    mq_send(queue, (char*) &struct_to_send, sizeof(struct_to_send), 1);
+    mq_close(queue);
+    mq_unlink(MQ_NAME);
+    return  0;
+int modify_value(int key, char *value1, int N_value2, double *V_value2){
+    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    Mensaje struct_to_send;
+    struct_to_send.cod_operacion = 4;
+    struct_to_send.clave = key;
+    struct_to_send.value1 = value1;
+    struct_to_send.N_value2 = N_value2;
+    struct_to_send.V_value2 = V_value2;
+    mq_send(queue, (char*) &struct_to_send, sizeof(struct_to_send), 1);
+    mq_close(queue);
+    mq_unlink(MQ_NAME);
+    return  0;
+}
+int exist(int key){
+    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    Mensaje struct_to_send;
+    struct_to_send.cod_operacion = 5;
+    struct_to_send.clave = key;
+    mq_send(queue, (char*) &struct_to_send, sizeof(struct_to_send), 1);
+    mq_close(queue);
+    mq_unlink(MQ_NAME);
+    return  0;
+}}
