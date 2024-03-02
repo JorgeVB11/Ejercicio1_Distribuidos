@@ -33,6 +33,9 @@ int set_value(int key, char *value1, int N_value2, double *V_value2){
     struct_to_send.cod_operacion = 1;
     struct_to_send.clave = key;
     struct_to_send.value1 = value1;
+    if (N_value2 != len(V_value2)){
+        return -1;
+    }
     struct_to_send.N_value2 = N_value2;
     struct_to_send.V_value2 = V_value2;
     mq_send(queue, (char*) &struct_to_send, sizeof(struct_to_send), 1);
@@ -46,6 +49,9 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2){
     struct_to_send.cod_operacion = 2;
     struct_to_send.clave = key;
     struct_to_send.value1 = value1;
+    if (N_value2 != len(V_value2)){
+        return -1;
+    }
     struct_to_send.N_value2 = N_value2;
     struct_to_send.V_value2 = V_value2;
     mq_send(queue, (char*) &struct_to_send, sizeof(struct_to_send), 1);
