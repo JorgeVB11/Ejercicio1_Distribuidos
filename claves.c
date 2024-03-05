@@ -35,12 +35,7 @@ int set_value(int key, char *value1, int N_value2, double *V_value2){
     struct_to_send.cod_operacion = 1;
     struct_to_send.clave = key;
     strcpy(struct_to_send.value1, value1);
-    /*for (i in V_value2){
-        longitud++;
-    }
-    if (N_value2 != longitud){
-        return -1;
-    }*/
+
     struct_to_send.N_value2 = N_value2;
     for (int i = 0; i < N_value2; i++){
         struct_to_send.V_value2[i] = V_value2[i];
@@ -56,12 +51,6 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2){
     struct_to_send.cod_operacion = 2;
     struct_to_send.clave = key;
     strcpy(struct_to_send.value1, value1);
-    /*for(i in V_value2){
-        longitud++;
-    }
-    if (N_value2 != longitud){
-        return -1;
-    }*/
     struct_to_send.N_value2 = *N_value2;
     for(int i = 0; i < *N_value2; i++){
         struct_to_send.V_value2[i] = V_value2[i];
