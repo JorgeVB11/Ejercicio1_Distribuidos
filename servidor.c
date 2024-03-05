@@ -78,6 +78,29 @@ int write_file (char* file_name, struct tupla *tupla)
     return 0;
 }
 
+int read_file(char *file_name, struct tupla *tupla) {
+
+    // Abrimos el archivo para leer
+    FILE *file = fopen(file_name, "rb");
+    // Comprobamos que el archivo se haya abierto correctamente
+    if (file == NULL) {
+	fprintf(stderr, "Error en la linea %d:\n", __LINE__);
+	fprintf(stderr, "No se pudo abrir el archivo %s: %s\n", file_name, strerror(errno));
+	return -1;
+    }
+
+    
+    if (fread(tupla, sizeof(struct tupla), 1, file) == 0) {
+	fprintf(stderr, "Error en la linea %d:\n", __LINE__);
+	fprintf(stderr, "Ocurrió un error al leer el archivo %s: %s\n", file_name, strerror(errno));
+	fclose(file);
+	return -1;
+    }
+    
+    fclose(file);
+    return 0;
+}
+
 int init() 
 {
     // Primero comprobamos que la carpeta de los archivos existe y si no, la creamos
@@ -190,15 +213,50 @@ int set_value(int key, char *value1, int N_value2, double *V_value2){
     return 0;
 }
 
+
+int get_value(int key, char *value1, int *N_value2, double *V_value2) {
+    char *file_name = get_file_name(key);
+    // Guardamos la información del fichero en la estructura
+    struct tupla tupla;
+
+    if (read_file(file_name, &tupla) == -1) {
+	fprintf(stderr, "Error en la linea %d:\n", __LINE__);
+	printf("Ocurrió un error al leer el fichero %s\n", file_name);
+	return -1;
+    }
+
+    // Copiamos los valores de la estructura a sus variables correspondientes
+    strcpy(value1, tupla.value1);
+    *N_value2 = tupla.N_value2;
+    for (int i = 0; i < *N_value2; i ++) {
+	V_value2[i] = tupla.V_value2[i];
+    }
+    // Liberamos el fichero
+    free(file_name);
+    return 0;
+}
+
+
 int main() {
     init();
-    printf("------------");
+    printf("------------\n");
     char value1[] = "Sociedad";
     double V_value2[] = {1.324, 22.2, 432.1};
     set_value(13, value1, 3, V_value2);
-    printf("------------");
+    printf("------------\n");
     char value1_2 [] = "Pepperoni";
     double V_value2_2[] = {32.2, 32.1, 3232.12, -12.0};
     set_value(17, value1_2, 4, V_value2_2);
-    printf("------------");
+    printf("------------\n");
+
+    char value1_3[256];
+    int N_value2_3;
+    double V_value2_3[32];
+    get_value(13, value1_3, &N_value2_3, V_value2_3);
+    printf("value1: %s\n", value1_3);
+    printf("N_value2: %d\n", N_value2_3);
+    for (int i = 0; i < N_value2_3; i++) {
+	printf("Elemento %d de V_value2: %f\n", i, V_value2_3[i]);
+    }
+    return 0;
 }
