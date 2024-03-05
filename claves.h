@@ -10,12 +10,12 @@ typedef struct{
     double V_value2[32];
 }Mensaje;
 
-/* struct mq_attr atributos = { */
-/*         .mq_flags = 0; */
-/*         .mq_maxmsg = 10; //no sé si hay nº max de mensajes pongo este por poner algo. */
-/*         .mq_curmsgs = 0; */
-/*         .mq_msgsize =  sizeof(Mensaje); */
-/* }; */
+typedef struct {
+        int mq_flags;
+        int mq_maxmsg; //no sé si hay nº max de mensajes pongo este por poner algo. */
+        int mq_curmsgs;
+        int mq_msgsize;
+}mq_attr;
 /**Codigo operacion:0
  * @brief Esta llamada permite inicializar el servicio de elementos clave-valor1-valor2.
  * Mediante este servicio se destruyen todas las tuplas que estuvieran almacenadas previamente.
