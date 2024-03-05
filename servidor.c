@@ -27,14 +27,17 @@ struct tupla
     double V_value2[32];
 };
 
+// Después de usar el nombre del archivo es importante hacer un free para liberar memoria
 char* get_file_name(int key) {
     
     // Primero convertimos la clave en string para poder concaternala luego y
     // obtener el nombre del archivo
+
+    int string_key_size = snprintf(NULL, 0, "%d", key);
+    char *string_key = (char*) malloc(string_key_size + 1); // +1 para el caracter final
+    snprintf(string_key, string_key_size + 1, "%d", key);
     
-    char string_key[12]; // El numero maximo de caracteres en un int es 11
-    sprintf(string_key, "%d", key);
-    size_t file_name_size = strlen(FILES_PATH) + strlen(string_key) + strlen(FILE_ENDING) + 1;
+    size_t file_name_size = strlen(FILES_PATH) + strlen(string_key) + strlen(FILE_ENDING) + 3;
     // Ahora creamos una string lo suficientemente grande para guardar el path completo
     char *file_name = (char*) malloc(file_name_size);
     // En caso de error cortamos la escritura
@@ -44,10 +47,10 @@ char* get_file_name(int key) {
 	return NULL;
     }
     // Concatenamos todo el path
-    strcat(file_name, FILES_PATH);
+    strcpy(file_name, FILES_PATH);
     strcat(file_name, string_key);
     strcat(file_name, FILE_ENDING);
-
+    free(string_key);
     return file_name;
 }
 
@@ -58,15 +61,15 @@ int write_file (char* file_name, struct tupla *tupla)
     FILE *file = fopen(file_name, "w");
     // Comprobamos que el archivo se haya abierto correctamente
     if (file == NULL) {
-	printf("Ocurrió un error al abrir el archivo");
-	perror("fopen()");
+	fprintf(stderr, "Error en la linea %d:\n", __LINE__);
+	fprintf(stderr, "No se pudo abrir el archivo %s: %s\n", file_name, strerror(errno));
 	return -1;
     }
 
     // Usamos fwrite para pasar la estructura a binario y escribirla
     if (fwrite(tupla, sizeof(struct tupla), 1, file) == 0) {
-	printf("Ocurrió un error al escribir el archivo");
-	perror("fwrite");
+	fprintf(stderr, "Error en la linea %d:\n", __LINE__);
+	fprintf(stderr, "Ocurrió un error al escribir el archivo %s: %s\n", file_name, strerror(errno));
 	fclose(file);
 	return -1;
     }
@@ -126,6 +129,7 @@ int init()
                 char path[256];
                 strcpy(path, FILES_PATH);
                 strcat(path, dir->d_name);
+		printf("Eliminado: %s\n", path);
                 if (remove(path) == -1)
                 {
                     printf("Ocurrió un error al borrar los archivos: \n");
@@ -148,7 +152,7 @@ int set_value(int key, char *value1, int N_value2, double *V_value2){
 
     // Primero obtenemos el nombre del archivo
     char *file_name = get_file_name(key);
-
+    printf("File_name: %s\n", file_name);
     // Comprobamos que no haya errores
     if (file_name == NULL) {
 	return -1;
@@ -176,17 +180,25 @@ int set_value(int key, char *value1, int N_value2, double *V_value2){
     
     // Una vez tenemos la estructura y el nombre del archivo, lo escribimos
     if (write_file(file_name, &tupla) == -1) {
-	printf("Ocurrió un error al escribir el fichero");
+	fprintf(stderr, "Error en la linea %d:\n", __LINE__);
+	printf("Ocurrió un error al escribir el fichero %s\n", file_name);
 	return -1;
     }
     
-
     printf("%s escrito\n", file_name);
+    free(file_name); // Importante liberar la memoria del nombre del archivo
     return 0;
 }
 
 int main() {
+    init();
+    printf("------------");
     char value1[] = "Sociedad";
     double V_value2[] = {1.324, 22.2, 432.1};
     set_value(13, value1, 3, V_value2);
+    printf("------------");
+    char value1_2 [] = "Pepperoni";
+    double V_value2_2[] = {32.2, 32.1, 3232.12, -12.0};
+    set_value(17, value1_2, 4, V_value2_2);
+    printf("------------");
 }
