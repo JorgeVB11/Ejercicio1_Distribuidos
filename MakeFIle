@@ -1,7 +1,0 @@
-#MakeFile
-claves.o: claves.c
-	gcc -c -Wall -fPIC claves.c -o claves.o
-libclaves.so: claves.o
-	gcc -shared -o libclaves.so claves.o
-cliente: cliente.c libclaves.so
-	gcc cliente.c -o cliente -L. -lclaves

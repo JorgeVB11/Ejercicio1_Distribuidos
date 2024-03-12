@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "claves.h": "c",
+        "stat.h": "c",
+        "fcntl.h": "c",
+        "mqueue.h": "c"
+    }
+}

@@ -9,3 +9,12 @@ podrá incluir llamadas a los servicios implementados y descritos anteriormente.
 haber ninguna referencia a colas de mensajes.*/
 // Created by jvinas on 2/26/24.
 //
+#include "claves.h"
+#include "auxiliar.h"
+#include <stdio.h>
+
+int main(){
+        int retorno = init();
+        printf("%dxdasdddf\n", retorno);
+        return 0;
+};

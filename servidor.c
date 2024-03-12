@@ -13,19 +13,11 @@ pueden almacenar. El servidor desarrollado debe ser concurrente.*/
 #include <dirent.h>
 #include <string.h>
 #include <unistd.h>
+#include <mqueue.h>
 #include "claves.h"
+#include "auxiliar.h"
 
-const char *FILES_PATH = "./server_files/";
-const char *FILE_ENDING = ".tupla";
 
-// Estructura para que sea más fácil guardar la información
-struct tupla
-{
-    int key;
-    char value1[256];
-    int N_value2;
-    double V_value2[32];
-};
 
 // Después de usar el nombre del archivo es importante hacer un free para liberar memoria
 char* get_file_name(int key) {
@@ -236,27 +228,59 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2) {
     return 0;
 }
 
+int delete_key(int key) {
+    // Se borra el archivo con el nombre de clave asociado
+    char *file_name = get_file_name(key);
+    if (access(file_name, F_OK) == -1) {
+        perror("No existe el archivo");
+        free(file_name);
+        return -1;
+    }
+    if (remove(file_name) == -1) {
+        perror("remove()");
+        free(file_name);
+        return -1;
+    }
+    return 0;
+
+
+}
+
+int modify_value(int key, char *value1, int N_value2, double *V_value2) {
+    if (delete_key(key) == -1) {
+        perror("delete_key");
+        return -1;
+    }
+    if (set_value(key, value1, N_value2, V_value2) == -1){
+        perror("set_value");
+        return -1;
+    }
+    return 0;
+}
+
+int exist(int key) {
+    char *file_name = get_file_name(key);
+    if (file_name == NULL) {
+        perror("file_name");
+        return -1;
+    }
+    // Comprobamos que el fichero existe
+    if (access(file_name, F_OK) == 0) {
+        free(file_name);
+        return 1;
+    }
+    free(file_name);
+    return 0;
+}
 
 int main() {
-    init();
-    printf("------------\n");
-    char value1[] = "Sociedad";
-    double V_value2[] = {1.324, 22.2, 432.1};
-    set_value(13, value1, 3, V_value2);
-    printf("------------\n");
-    char value1_2 [] = "Pepperoni";
-    double V_value2_2[] = {32.2, 32.1, 3232.12, -12.0};
-    set_value(17, value1_2, 4, V_value2_2);
-    printf("------------\n");
+    atributos.mq_flags = 0;
+    atributos.mq_maxmsg = 10; //no sé si hay nº max de mensajes pongo este por poner algo. */
+    atributos.mq_curmsgs = 0;
+    atributos.mq_msgsize = sizeof(Mensaje);
+    mqd_t server_queue = mq_open(MQ_NAME, O_CREAT |O_RDONLY, S_IRUSR|S_IWUSR, &atributos);
 
-    char value1_3[256];
-    int N_value2_3;
-    double V_value2_3[32];
-    get_value(13, value1_3, &N_value2_3, V_value2_3);
-    printf("value1: %s\n", value1_3);
-    printf("N_value2: %d\n", N_value2_3);
-    for (int i = 0; i < N_value2_3; i++) {
-	printf("Elemento %d de V_value2: %f\n", i, V_value2_3[i]);
-    }
+
+    
     return 0;
 }
