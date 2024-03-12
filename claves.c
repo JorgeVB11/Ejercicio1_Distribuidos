@@ -18,7 +18,7 @@ int init(){
     atributos.mq_msgsize = sizeof(Mensaje);
 
 
-    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY);
     if (queue == -1){
         perror("mq_open");
         return -1;
@@ -38,7 +38,7 @@ int set_value(int key, char *value1, int N_value2, double *V_value2){
     if (N_value2 < 1 || N_value2 > 32){
         return -1;
     }
-    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY);
     if (queue == -1){
         perror("mq_open");
         return -1;
@@ -58,7 +58,7 @@ int set_value(int key, char *value1, int N_value2, double *V_value2){
     return  0;
 }
 int get_value(int key, char *value1, int *N_value2, double *V_value2){
-    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY);
     if (queue == -1){
         perror("mq_open");
         return -1;
@@ -77,7 +77,7 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2){
     return 0;
 }
 int delete_key(int key){
-    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY);
     if (queue == -1){
         perror("mq_open");
         return -1;
@@ -94,7 +94,7 @@ int modify_value(int key, char *value1, int N_value2, double *V_value2){
     if (N_value2 < 1 || N_value2 > 32){
         return -1;
     }
-    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY);
     if (queue == -1){
         perror("mq_open");
         return -1;
@@ -113,7 +113,7 @@ int modify_value(int key, char *value1, int N_value2, double *V_value2){
     return  0;
 }
 int exist(int key){
-    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY);
     if (queue == -1){
         perror("mq_open");
         return -1;
