@@ -272,15 +272,28 @@ int exist(int key) {
     free(file_name);
     return 0;
 }
+void gestionar_peticion(char *mensaje) {
+    printf("El mensaje es: \n");
+    printf("%s", mensaje);
+}
+
 
 int main() {
     atributos.mq_flags = 0;
     atributos.mq_maxmsg = 10; //no sé si hay nº max de mensajes pongo este por poner algo. */
     atributos.mq_curmsgs = 0;
     atributos.mq_msgsize = sizeof(Mensaje);
-    mqd_t server_queue = mq_open(MQ_NAME, O_CREAT |O_RDONLY, S_IRUSR|S_IWUSR, &atributos);
+    mqd_t server_queue = mq_open(MQ_NAME, O_CREAT |O_RDONLY);
+    if (server_queue == -1) {
+        perror("mq_open");
+        return -1;
+    }
+    while (1) {
+        char mensaje[sizeof(Mensaje) + 1];
+        mq_receive(server_queue, mensaje, sizeof(Mensaje), NULL);
+        gestionar_peticion(mensaje);
+    }
 
 
-    
     return 0;
 }

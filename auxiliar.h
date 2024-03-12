@@ -23,7 +23,7 @@ int read_file(char *file_name, struct tupla *tupla);
 
 // CLIENTE
 
-#define MQ_NAME "server_queue_075"
+#define MQ_NAME "/server_queue_075"
 
 typedef struct{
     int cod_operacion;
@@ -39,5 +39,7 @@ typedef struct {
         int mq_curmsgs;
         int mq_msgsize;
 }mq_attr;
+
+void gestionar_peticion(char *mensaje);
 
 mq_attr atributos;//lo declaro aquí para que sea global y asigno valores en el main() para que no haya problemas.
