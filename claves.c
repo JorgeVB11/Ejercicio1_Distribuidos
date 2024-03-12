@@ -19,6 +19,10 @@ int init(){
 
 
     mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    if (queue == -1){
+        perror("mq_open");
+        return -1;
+    }
     //Si he entendido bien los flags de la 2ª posicion son mis permisos y los de la 3ª posicion son los permisos para el resto de usuarios.
     Mensaje struct_to_send;
     struct_to_send.cod_operacion = 0;
@@ -35,6 +39,10 @@ int set_value(int key, char *value1, int N_value2, double *V_value2){
         return -1;
     }
     mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    if (queue == -1){
+        perror("mq_open");
+        return -1;
+    }
     Mensaje struct_to_send;
     struct_to_send.cod_operacion = 1;
     struct_to_send.clave = key;
@@ -51,6 +59,10 @@ int set_value(int key, char *value1, int N_value2, double *V_value2){
 }
 int get_value(int key, char *value1, int *N_value2, double *V_value2){
     mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    if (queue == -1){
+        perror("mq_open");
+        return -1;
+    }
     Mensaje struct_to_send;
     struct_to_send.cod_operacion = 2;
     struct_to_send.clave = key;
@@ -66,6 +78,10 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2){
 }
 int delete_key(int key){
     mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    if (queue == -1){
+        perror("mq_open");
+        return -1;
+    }
     Mensaje struct_to_send;
     struct_to_send.cod_operacion = 3;
     struct_to_send.clave = key;
@@ -78,8 +94,11 @@ int modify_value(int key, char *value1, int N_value2, double *V_value2){
     if (N_value2 < 1 || N_value2 > 32){
         return -1;
     }
-
     mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    if (queue == -1){
+        perror("mq_open");
+        return -1;
+    }
     Mensaje struct_to_send;
     struct_to_send.cod_operacion = 4;
     struct_to_send.clave = key;
@@ -95,6 +114,10 @@ int modify_value(int key, char *value1, int N_value2, double *V_value2){
 }
 int exist(int key){
     mqd_t queue = mq_open(MQ_NAME, O_CREAT|O_WRONLY, S_IRUSR|S_IWUSR, &atributos);
+    if (queue == -1){
+        perror("mq_open");
+        return -1;
+    }
     Mensaje struct_to_send;
     struct_to_send.cod_operacion = 5;
     struct_to_send.clave = key;
