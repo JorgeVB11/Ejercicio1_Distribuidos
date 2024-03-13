@@ -272,21 +272,27 @@ int exist(int key) {
     free(file_name);
     return 0;
 }
-void gestionar_peticion(char *mensaje) {
+void gestionar_peticion(char* mensaje) {
     /*switch(mensaje.cod_operacion){
         //supongo que no se hace return para que esto siga indefinidamente
         case 0:
             init();
+            break;
         case 1:
             set_value(mensaje.clave, mensaje.value1, mensaje.N_value2, mensaje.V_value2);
+            break;
         case 2:
             get_value(mensaje.clave, mensaje.value1, &mensaje.N_value2, mensaje.V_value2);
+            break;
         case 3:
             delete_key(mensaje.clave);
+            break;
         case 4:
             modify_value(mensaje.clave, mensaje.value1, mensaje.N_value2, mensaje.V_value2);
+            break;
         case 5:
             exist(mensaje.clave);
+            break;
     }*/
     printf("El mensaje es: \n");
     printf("%s", mensaje);
