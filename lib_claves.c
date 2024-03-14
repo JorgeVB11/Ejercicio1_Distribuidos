@@ -30,6 +30,10 @@ int init()
         return -1;
     }
     mq_close(queue);
+    atributos.mq_flags = 0;
+    atributos.mq_maxmsg = 10; // no sé si hay nº max de mensajes pongo este por poner algo. */
+    atributos.mq_curmsgs = 0;
+    atributos.mq_msgsize = sizeof(Respuesta);
     mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY| O_CREAT, 0666, &atributos);
     if (cola_cliente == -1) {
         perror("mq_open");
@@ -200,10 +204,8 @@ int exist(int key)
     memcpy(&respuesta, buffer, sizeof(Respuesta));
     return respuesta.resultado;
 }
+/*
 int main(){
-    atributos.mq_flags = 0;
-    atributos.mq_maxmsg = 10; // no sé si hay nº max de mensajes pongo este por poner algo. */
-    atributos.mq_curmsgs = 0;
-    atributos.mq_msgsize = sizeof(Respuesta);
+
     return 0;
-}
+}*/
