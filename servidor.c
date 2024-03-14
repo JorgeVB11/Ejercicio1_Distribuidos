@@ -272,24 +272,30 @@ int exist(int key) {
     free(file_name);
     return 0;
 }
-void gestionar_peticion(char *mensaje) {
-    /*switch(mensaje.cod_operacion){
+void gestionar_peticion(Mensaje mensaje) {
+    switch(mensaje.cod_operacion){
         //supongo que no se hace return para que esto siga indefinidamente
         case 0:
             init();
+            break;
         case 1:
             set_value(mensaje.clave, mensaje.value1, mensaje.N_value2, mensaje.V_value2);
+            break;
         case 2:
             get_value(mensaje.clave, mensaje.value1, &mensaje.N_value2, mensaje.V_value2);
+            break;
         case 3:
             delete_key(mensaje.clave);
+            break;
         case 4:
             modify_value(mensaje.clave, mensaje.value1, mensaje.N_value2, mensaje.V_value2);
+            break;
         case 5:
             exist(mensaje.clave);
-    }*/
+            break;
+    }
     printf("El mensaje es: \n");
-    printf("%s", mensaje);
+    printf("%d", mensaje.clave);
 }
 
 int main() {
@@ -303,9 +309,14 @@ int main() {
         return -1;
     }
     while (1) {
-        char mensaje[sizeof(Mensaje) + 1];
-        mq_receive(server_queue, mensaje, sizeof(Mensaje), NULL);
-        gestionar_peticion(mensaje);
+        while (1) {
+            char buffer[sizeof(Mensaje)];
+            mq_receive(server_queue, buffer, sizeof(Mensaje), NULL);
+            Mensaje mensaje;
+            memcpy(&mensaje, buffer, sizeof(Mensaje));
+            printf("Mensaje recibido %d\n", mensaje.cod_operacion);
+            gestionar_peticion(mensaje);
+        }
     }
 
 

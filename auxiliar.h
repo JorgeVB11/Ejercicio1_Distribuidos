@@ -40,6 +40,6 @@ typedef struct {
         int mq_msgsize;
 }mq_attr;
 
-void gestionar_peticion(char *mensaje);
+void gestionar_peticion(Mensaje mensaje);
 
 mq_attr atributos;//lo declaro aquí para que sea global y asigno valores en el main() para que no haya problemas.
