@@ -68,7 +68,7 @@ int set_value(int key, char *value1, int N_value2, double *V_value2)
     sprintf(struct_to_send.cola_respuesta, "/cliente_%d_%ld", getpid(),pthread_self());
     mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
     mq_close(queue);
-    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY| O_CREAT, 0666, &atributos);
+    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
     if (cola_cliente == -1) {
         perror("mq_open");
         return -1;
@@ -100,7 +100,7 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2)
     sprintf(struct_to_send.cola_respuesta, "/cliente_%d_%ld", getpid(),pthread_self());
     mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
     mq_close(queue);
-    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY| O_CREAT, 0666, &atributos);
+    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
     if (cola_cliente == -1) {
         perror("mq_open");
         return -1;
@@ -126,7 +126,7 @@ int delete_key(int key)
     sprintf(struct_to_send.cola_respuesta, "/cliente_%d_%ld", getpid(),pthread_self());
     mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
     mq_close(queue);
-    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY| O_CREAT, 0666, &atributos);
+    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
     if (cola_cliente == -1) {
         perror("mq_open");
         return -1;
@@ -162,7 +162,7 @@ int modify_value(int key, char *value1, int N_value2, double *V_value2)
     }
     sprintf(struct_to_send.cola_respuesta, "/cliente_%d_%ld", getpid(),pthread_self());
     mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
-    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY| O_CREAT, 0666, &atributos);
+    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
     if (cola_cliente == -1) {
         perror("mq_open");
         return -1;
@@ -188,7 +188,7 @@ int exist(int key)
     sprintf(struct_to_send.cola_respuesta, "/cliente_%d_%ld", getpid(),pthread_self());
     mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
     mq_close(queue);
-    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY| O_CREAT, 0666, &atributos);
+    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
     if (cola_cliente == -1) {
         perror("mq_open");
         return -1;
