@@ -292,6 +292,7 @@ int exist(int key)
 void gestionar_peticion(Mensaje mensaje)
 {
     printf("Código de operación: %d\n", mensaje.cod_operacion);
+    printf("Cola de respuesta: %s\n", mensaje.cola_respuesta);
     switch (mensaje.cod_operacion)
     {
     case 0:
@@ -327,23 +328,30 @@ int main()
     atributos.mq_maxmsg = 10; // no sé si hay nº max de mensajes pongo este por poner algo. */
     atributos.mq_curmsgs = 0;
     atributos.mq_msgsize = sizeof(Mensaje);
-    mqd_t server_queue = mq_open(MQ_NAME, O_CREAT | O_RDONLY, 0700, &atributos);
+    // Primero abrimos la cola
+    mqd_t server_queue = mq_open(MQ_NAME, O_CREAT | O_RDONLY, 0666, &atributos);
     if (server_queue == -1)
     {
         perror("mq_open");
         return -1;
     }
+    // Borramos alguna cola que puediera haber de anteriores ejecuciones
+    mq_unlink(MQ_NAME);
+    server_queue = mq_open(MQ_NAME, O_CREAT | O_RDONLY, 0666, &atributos);
+    if (server_queue == -1)
+    {
+        perror("mq_open");
+        return -1;
+    }
+
     while (1)
     {
-        while (1)
-        {
-            char buffer[sizeof(Mensaje)];
-            mq_receive(server_queue, buffer, sizeof(Mensaje), NULL);
-            Mensaje mensaje;
-            memcpy(&mensaje, buffer, sizeof(Mensaje));
-            gestionar_peticion(mensaje);
-            printf("-----------------\n");
-        }
+        char buffer[sizeof(Mensaje)];
+        mq_receive(server_queue, buffer, sizeof(Mensaje), NULL);
+        Mensaje mensaje;
+        memcpy(&mensaje, buffer, sizeof(Mensaje));
+        gestionar_peticion(mensaje);
+        printf("-----------------\n");
     }
 
     return 0;

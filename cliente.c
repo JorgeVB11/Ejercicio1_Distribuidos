@@ -30,10 +30,8 @@ int main(){
     set_value(17, value1_2, 4, V_value2_2);
     printf("------------\n");
 
-    //delete_key(17);
-
-    exist(17);
-
+    delete_key(17);
+    
     /*char value1_3[256];
     int N_value2_3;
     double V_value2_3[32];

@@ -1,5 +1,7 @@
 #include "claves.h"
 #include "auxiliar.h"
+#include <pthread.h>
+#include <unistd.h>
 
 /*Desarrollar el código que implementa los servicios anteriores (init, set_value, get_value,
 delete_key, modify_value y exist). El código se desarrollará sobre el archivo con nombre
@@ -10,26 +12,25 @@ Esta será la biblioteca que utilizarán las aplicaciones de usuario que para us
 investigar y buscar la forma de crear dicha biblioteca.*/
 // Created by jvinas on 2/26/24.
 
-int longitud = 0;
 int init()
 {
-    atributos.mq_flags = 0;
-    atributos.mq_maxmsg = 10; // no sé si hay nº max de mensajes pongo este por poner algo. */
-    atributos.mq_curmsgs = 0;
-    atributos.mq_msgsize = sizeof(Mensaje);
 
-    mqd_t queue = mq_open(MQ_NAME, O_CREAT | O_WRONLY, 0666, NULL);
+    mqd_t queue = mq_open(MQ_NAME, O_WRONLY);
     if (queue == -1)
     {
         perror("mq_open");
         return -1;
     }
+
     // Si he entendido bien los flags de la 2ª posicion son mis permisos y los de la 3ª posicion son los permisos para el resto de usuarios.
     Mensaje struct_to_send;
     struct_to_send.cod_operacion = 0;
-    mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
+    sprintf(struct_to_send.cola_respuesta, "/cliente_%d_%ld", getpid(),pthread_self());
+    if (mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1) == -1) {
+        perror("mq_send");
+        return -1;
+    }
     mq_close(queue);
-    // mq_unlink(MQ_NAME);
     return 0;
 }
 

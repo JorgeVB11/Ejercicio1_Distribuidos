@@ -11,7 +11,16 @@
 const char *FILES_PATH = "./server_files/";
 const char *FILE_ENDING = ".tupla";
 
+// CLIENTE
 
+typedef struct{
+    int cod_operacion;
+    int clave;
+    char value1[256];
+    int N_value2;
+    double V_value2[32];
+    char cola_respuesta[128];
+}Mensaje;
 
 // Estructura para que sea más fácil guardar la información
 struct tupla
@@ -25,17 +34,6 @@ char* get_file_name(int key);
 int write_file (char* file_name, struct tupla *tupla);
 int read_file(char *file_name, struct tupla *tupla);
 
-// CLIENTE
-
-
-
-typedef struct{
-    int cod_operacion;
-    int clave;
-    char value1[256];
-    int N_value2;
-    double V_value2[32];
-}Mensaje;
 
 void gestionar_peticion(Mensaje mensaje);
 
