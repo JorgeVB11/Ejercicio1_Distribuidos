@@ -59,6 +59,12 @@ int set_value(int key, char *value1, int N_value2, double *V_value2)
     mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
     mq_close(queue);
     //mq_unlink(MQ_NAME);
+    char nombre_cola_respuesta = (char)struct_to_send.clave;
+    mqd_t personal_queue = mq_open(&nombre_cola_respuesta, O_CREAT | O_RDONLY, 0666, &atributos);
+    char buffer[256];
+    mq_receive(personal_queue, buffer, 256, NULL);
+    printf("%s\n", buffer);
+    mq_close(personal_queue);
     return 0;
 }
 int get_value(int key, char *value1, int *N_value2, double *V_value2)
@@ -81,6 +87,13 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2)
     mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
     mq_close(queue);
     mq_unlink(MQ_NAME);
+    char nombre_cola_respuesta = (char)struct_to_send.clave;
+    mqd_t personal_queue = mq_open(&nombre_cola_respuesta, O_CREAT | O_RDONLY, 0666, &atributos);
+    char buffer[256];
+    mq_receive(personal_queue, buffer, 256, NULL);
+    printf("%s\n", buffer);
+    mq_close(personal_queue);
+
     return 0;
 }
 int delete_key(int key)
@@ -97,6 +110,12 @@ int delete_key(int key)
     mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
     mq_close(queue);
     //mq_unlink(MQ_NAME);
+    char nombre_cola_respuesta = (char)struct_to_send.clave;
+    mqd_t personal_queue = mq_open(&nombre_cola_respuesta, O_CREAT | O_RDONLY, 0666, &atributos);
+    char buffer[256];
+    mq_receive(personal_queue, buffer, 256, NULL);
+    printf("%s\n", buffer);
+    mq_close(personal_queue);
     return 0;
 }
 
@@ -124,6 +143,12 @@ int modify_value(int key, char *value1, int N_value2, double *V_value2)
     mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
     mq_close(queue);
     //mq_unlink(MQ_NAME);
+    char nombre_cola_respuesta = (char)struct_to_send.clave;
+    mqd_t personal_queue = mq_open(&nombre_cola_respuesta, O_CREAT | O_RDONLY, 0666, &atributos);
+    char buffer[256];
+    mq_receive(personal_queue, buffer, 256, NULL);
+    printf("%s\n", buffer);
+    mq_close(personal_queue);
     return 0;
 }
 int exist(int key)
@@ -140,5 +165,11 @@ int exist(int key)
     mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
     mq_close(queue);
     //mq_unlink(MQ_NAME);
+    char nombre_cola_respuesta = (char)struct_to_send.clave;
+    mqd_t personal_queue = mq_open(&nombre_cola_respuesta, O_CREAT | O_RDONLY, 0666, &atributos);
+    char buffer[256];
+    mq_receive(personal_queue, buffer, 256, NULL);
+    printf("%s\n", buffer);
+    mq_close(personal_queue);
     return 0;
 }

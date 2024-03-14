@@ -294,7 +294,7 @@ void gestionar_peticion(Mensaje mensaje)
     printf("Código de operación: %d\n", mensaje.cod_operacion);
     printf("Cola de respuesta: %s\n", mensaje.cola_respuesta);
     char nombre_cola_respuesta = (char)mensaje.clave;
-    mqd_t cola_personal = mq_open(&nombre_cola_respuesta, O_CREAT | O_RDONLY, 0666, &atributos);
+    mqd_t personal_queue = mq_open(&nombre_cola_respuesta, O_CREAT | O_RDONLY, 0666, &atributos);
     int result;
     char message[256];
     switch (mensaje.cod_operacion)
@@ -307,31 +307,31 @@ void gestionar_peticion(Mensaje mensaje)
         printf("set_value\n");
         result = set_value(mensaje.clave, mensaje.value1, mensaje.N_value2, mensaje.V_value2);
         sprintf(message,"Set_value() has been performed, this is the result: %d", result);
-        mq_send(cola_personal, message, sizeof(message), 1);
+        mq_send(personal_queue, message, sizeof(message), 1);
         break;
     case 2:
         printf("get_value\n");
         result = get_value(mensaje.clave, mensaje.value1, &mensaje.N_value2, mensaje.V_value2);
         sprintf(message,"Get_value() has been performed, this is the result: %d", result);
-        mq_send(cola_personal, message, sizeof(message), 1);
+        mq_send(personal_queue, message, sizeof(message), 1);
         break;
     case 3:
         printf("delete_key\n");
         result = delete_key(mensaje.clave);
         sprintf(message,"Delete_key() has been performed, this is the result: %d", result);
-        mq_send(cola_personal, message, sizeof(message), 1);
+        mq_send(personal_queue, message, sizeof(message), 1);
         break;
     case 4:
         printf("modify_value\n");
         result = modify_value(mensaje.clave, mensaje.value1, mensaje.N_value2, mensaje.V_value2);
         sprintf(message,"Modify_value() has been performed, this is the result: %d", result);
-        mq_send(cola_personal, message, sizeof(message), 1);
+        mq_send(personal_queue, message, sizeof(message), 1);
         break;
     case 5:
         printf("exist\n");
         result = exist(mensaje.clave);
         sprintf(message,"Exist() has been performed, this is the result: %d", result);
-        mq_send(cola_personal, message, sizeof(message), 1);
+        mq_send(personal_queue, message, sizeof(message), 1);
         break;
     }
 }
