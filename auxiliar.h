@@ -21,7 +21,13 @@ typedef struct{
     double V_value2[32];
     char cola_respuesta[128];
 }Mensaje;
-
+typedef struct{
+    int clave;
+    int resultado;
+    char value1[256];
+    int N_value2;
+    double V_value2[32];
+}Respuesta;
 // Estructura para que sea más fácil guardar la información
 struct tupla
 {

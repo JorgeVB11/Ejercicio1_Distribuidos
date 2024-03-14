@@ -14,10 +14,16 @@ haber ninguna referencia a colas de mensajes.*/
 #include <stdio.h>
 
 int main(){
-    if (init() == -1) {
+    int respuesta = init();
+    if (respuesta == -1) {
         return -1;
     }
-    
+    else{
+        printf("El servidor se ha iniciado correctamente y devolvio %d\n", respuesta);
+        return respuesta;
+    }
+
+    /*
     printf("------------\n");
     char value1[] = "Sociedad";
     double V_value2[] = {1.324, 22.2, 432.1};
@@ -30,7 +36,7 @@ int main(){
     set_value(17, value1_2, 4, V_value2_2);
     printf("------------\n");
 
-    delete_key(17);
+    delete_key(17);*/
     
     /*char value1_3[256];
     int N_value2_3;
