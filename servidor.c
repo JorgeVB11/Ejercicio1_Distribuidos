@@ -273,7 +273,7 @@ int exist(int key) {
     return 0;
 }
 void gestionar_peticion(char *mensaje) {
-    switch(mensaje.cod_operacion){
+    /*switch(mensaje.cod_operacion){
         //supongo que no se hace return para que esto siga indefinidamente
         case 0:
             init();
@@ -287,7 +287,7 @@ void gestionar_peticion(char *mensaje) {
             modify_value(mensaje.clave, mensaje.value1, mensaje.N_value2, mensaje.V_value2);
         case 5:
             exist(mensaje.clave);
-    }
+    }*/
     printf("El mensaje es: \n");
     printf("%s", mensaje);
 }
