@@ -301,9 +301,7 @@ void gestionar_peticion(Mensaje mensaje)
     {
     case 0:
         printf("init\n");
-        result = init();
-        sprintf(message,"Init() has been performed, this is the result: %d", result);
-        mq_send(cola_personal, message, sizeof(message), 1);
+        init();
         break;
     case 1:
         printf("set_value\n");
