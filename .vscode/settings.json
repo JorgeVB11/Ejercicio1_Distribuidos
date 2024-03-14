@@ -3,6 +3,7 @@
         "claves.h": "c",
         "stat.h": "c",
         "fcntl.h": "c",
-        "mqueue.h": "c"
+        "mqueue.h": "c",
+        "tabla_mutex.h": "c"
     }
 }

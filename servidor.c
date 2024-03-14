@@ -4,6 +4,8 @@ que se estime oportuno, siempre que no imponga un límite en el número de eleme
 pueden almacenar. El servidor desarrollado debe ser concurrente.*/
 // Created by jvinas on 2/26/24.
 //
+#ifndef SERVIDOR_H
+#define SERVIDOR_H
 #include <stddef.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -370,3 +372,4 @@ int main()
 
     return 0;
 }
+#endif
