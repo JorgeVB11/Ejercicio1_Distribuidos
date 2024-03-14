@@ -44,3 +44,4 @@ int read_file(char *file_name, struct tupla *tupla);
 void gestionar_peticion(Mensaje mensaje);
 
 struct mq_attr atributos;//lo declaro aquí para que sea global y asigno valores en el main() para que no haya problemas.
+struct mq_attr atributos_respuesta;
