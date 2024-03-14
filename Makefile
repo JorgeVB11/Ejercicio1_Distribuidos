@@ -19,7 +19,7 @@ $(PROXY): $(PROXY_OBJECTS)
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
-$(CLIENT): cliente.o
+$(CLIENT): cliente.o libclaves.so
 	$(CC) -o $(CLIENT) cliente.o $(LDFLAGS) $(LDLIBS) -lrt -L. -lclaves -Wl,-rpath,.
 
 $(SERVER): servidor.o 
