@@ -5,9 +5,13 @@
 #include <stdlib.h>
 #include <stdio.h>
 
+#define MQ_NAME "/SERVER_QUEUE_075"
+
 // SERVER
 const char *FILES_PATH = "./server_files/";
 const char *FILE_ENDING = ".tupla";
+
+
 
 // Estructura para que sea más fácil guardar la información
 struct tupla
@@ -23,7 +27,7 @@ int read_file(char *file_name, struct tupla *tupla);
 
 // CLIENTE
 
-#define MQ_NAME "/server_queue_075"
+
 
 typedef struct{
     int cod_operacion;
@@ -33,13 +37,6 @@ typedef struct{
     double V_value2[32];
 }Mensaje;
 
-typedef struct {
-        int mq_flags;
-        int mq_maxmsg; //no sé si hay nº max de mensajes pongo este por poner algo. */
-        int mq_curmsgs;
-        int mq_msgsize;
-}mq_attr;
-
 void gestionar_peticion(Mensaje mensaje);
 
-mq_attr atributos;//lo declaro aquí para que sea global y asigno valores en el main() para que no haya problemas.
+struct mq_attr atributos;//lo declaro aquí para que sea global y asigno valores en el main() para que no haya problemas.

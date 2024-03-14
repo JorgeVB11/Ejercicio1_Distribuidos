@@ -14,18 +14,27 @@ haber ninguna referencia a colas de mensajes.*/
 #include <stdio.h>
 
 int main(){
-    init();
+    if (init() == -1) {
+        return -1;
+    }
+    
     printf("------------\n");
     char value1[] = "Sociedad";
     double V_value2[] = {1.324, 22.2, 432.1};
-    set_value(13, value1, 3, V_value2);
+    if (set_value(13, value1, 3, V_value2) == -1) {
+        return -1;
+    }
     printf("------------\n");
     char value1_2 [] = "Pepperoni";
     double V_value2_2[] = {32.2, 32.1, 3232.12, -12.0};
     set_value(17, value1_2, 4, V_value2_2);
     printf("------------\n");
 
-    char value1_3[256];
+    //delete_key(17);
+
+    exist(17);
+
+    /*char value1_3[256];
     int N_value2_3;
     double V_value2_3[32];
     get_value(13, value1_3, &N_value2_3, V_value2_3);
@@ -36,7 +45,7 @@ int main(){
     }
 
 
-    delete_key(17);
+    
 
 
     double V_value2_4[] = {3.21, 75.2, 342.2};
@@ -52,5 +61,6 @@ int main(){
     }
     printf("La tupla %d existe: %d\n", 17, exist(13));
     exist(17);
+    */
     return 0;
 };
