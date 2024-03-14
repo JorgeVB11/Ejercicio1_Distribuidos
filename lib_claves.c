@@ -121,6 +121,14 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2)
     mq_close(cola_cliente);
     Respuesta respuesta;
     memcpy(&respuesta, buffer, sizeof(Respuesta));
+    
+    // Copiamos los valores en el sitio corerespondiente
+    strcpy(value1, respuesta.value1);
+    *N_value2 = respuesta.N_value2;
+    for (int i = 0; i < *N_value2; i++) {
+        V_value2[i] = respuesta.V_value2[i];
+    }
+
     return respuesta.resultado;
 }
 int delete_key(int key)

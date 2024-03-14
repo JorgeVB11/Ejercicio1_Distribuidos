@@ -311,7 +311,7 @@ void gestionar_peticion(Mensaje mensaje)
         break;
     case 2:
         printf("get_value\n");
-        answer.resultado = get_value(mensaje.clave, mensaje.value1, &mensaje.N_value2, mensaje.V_value2);
+        answer.resultado = get_value(mensaje.clave, answer.value1, &answer.N_value2, answer.V_value2);
         mq_send(answer_queue,(char*)&answer,sizeof(answer),1);
         mq_close(answer_queue);
         break;

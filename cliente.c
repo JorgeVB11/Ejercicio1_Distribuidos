@@ -14,40 +14,79 @@ haber ninguna referencia a colas de mensajes.*/
 #include <stdio.h>
 
 int main(){
-    int respuesta = init();
-    if (respuesta == -1) {
+    
+    if (init() == -1) {
+        printf("Fallo en el init\n");
         return -1;
     }
-    else{
-        printf("El servidor se ha iniciado correctamente y devolvio %d\n", respuesta);
-        return respuesta;
-    }
-
-    /*
-    printf("------------\n");
     char value1[] = "Sociedad";
     double V_value2[] = {1.324, 22.2, 432.1};
     if (set_value(13, value1, 3, V_value2) == -1) {
+        printf("Error en el set_value");
         return -1;
     }
-    printf("------------\n");
     char value1_2 [] = "Pepperoni";
     double V_value2_2[] = {32.2, 32.1, 3232.12, -12.0};
-    set_value(17, value1_2, 4, V_value2_2);
-    printf("------------\n");
+    if (set_value(17, value1_2, 4, V_value2_2) == -1) {
+        printf("Error en el set_value");
+        return -1;
+    }
 
-    delete_key(17);*/
+    if (delete_key(17) == -1) {
+        printf("Fallo en delete_key\n");
+        return -1;
+    }
+    int exist17 = exist(17); // Debería dar 0
+    int exist13 = exist(13); // Debería dar 1
+    if ( exist17== -1 || exist13 == -1) {
+        printf("Fallo en el exist\n");
+        return -1;
+    }
+    printf("Exist 17: %d\n", exist17);
+    printf("Exist 13: %d\n", exist13);
+
+    //  Aqui es donde guardaremos los valores de prueba
+    char value1_buffer[256];
+    int N_value2_buffer;
+    double V_value2_buffer[32];
+    if (get_value(13, value1_buffer, &N_value2_buffer, V_value2_buffer) == -1) {
+        printf("Error en el get_value\n");
+        return -1;
+    }
+    printf("------------------------\n");
+    printf("Valor de value1: %s\n", value1_buffer);
+    printf("Valor de N_value2: %d\n", N_value2_buffer);
+    for (int i = 0; i < N_value2_buffer; i++) {
+        printf("Elemento %d de V_value2: %f\n", i, V_value2_buffer[i]);
+    }
     
-    /*char value1_3[256];
-    int N_value2_3;
-    double V_value2_3[32];
+
+
+    char value1_3[] = "Leganes";
+    int N_value2_3 = 2;
+    double V_value2_3[] = {6.5, 3.1223};
+
+    if (modify_value(13, value1_3, N_value2_3, V_value2_3) == -1) {
+        printf("Error en el modify_value\n");
+    }
+
+    if (get_value(13, value1_buffer, &N_value2_buffer, V_value2_buffer) == -1) {
+        printf("Error en el get_value\n");
+        return -1;
+    }
+    printf("------------------------\n");
+    printf("Valor de value1: %s\n", value1_buffer);
+    printf("Valor de N_value2: %d\n", N_value2_buffer);
+    for (int i = 0; i < N_value2_buffer; i++) {
+        printf("Elemento %d de V_value2: %f\n", i, V_value2_buffer[i]);
+    }
+    /*
     get_value(13, value1_3, &N_value2_3, V_value2_3);
     printf("value1: %s\n", value1_3);
     printf("N_value2: %d\n", N_value2_3);
     for (int i = 0; i < N_value2_3; i++) {
         printf("Elemento %d de V_value2: %f\n", i, V_value2_3[i]);
     }
-
 
     
 
