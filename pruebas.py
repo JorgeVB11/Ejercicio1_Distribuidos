@@ -24,6 +24,8 @@ class TestCliente(unittest.TestCase):
             ruta = directorio + str(i) + ".out"
             comando = "./cliente > " + ruta
             subprocess.run(comando, shell=True)
+        for n in range(10):
+            ruta = directorio + str(n) + ".out"
             with open(ruta) as f:
                 caso_intermedio = f.read()
             self.assertEqual(caso_base,caso_intermedio)
@@ -35,6 +37,8 @@ class TestCliente(unittest.TestCase):
             ruta = directorio + str(i) + ".out"
             comando = "./cliente > " + ruta
             subprocess.run(comando, shell=True)
+        for n in range(10, 110):
+            ruta = directorio + str(n) + ".out"
             with open(ruta) as f:
                 caso_intermedio = f.read()
             self.assertEqual(caso_base,caso_intermedio)
