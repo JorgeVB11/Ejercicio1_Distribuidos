@@ -314,37 +314,55 @@ void* gestionar_peticion(void *argumento)
     case 0:
         printf("init\n");
         answer.resultado = init();
-        mq_send(answer_queue,(char*)&answer,sizeof(answer),1);
+        if(mq_send(answer_queue,(char*)&answer,sizeof(answer),1)==-1){
+            perror("mq_send");
+            pthread_exit(NULL);
+        };
         mq_close(answer_queue);
         break;
     case 1:
         printf("set_value\n");
         answer.resultado = set_value(mensaje->clave, mensaje->value1, mensaje->N_value2, mensaje->V_value2);
-        mq_send(answer_queue,(char*)&answer,sizeof(answer),1);
+        if(mq_send(answer_queue,(char*)&answer,sizeof(answer),1)==-1){
+            perror("mq_send");
+            pthread_exit(NULL);
+        }
         mq_close(answer_queue);
         break;
     case 2:
         printf("get_value\n");
         answer.resultado = get_value(mensaje->clave, answer.value1, &answer.N_value2, answer.V_value2);
-        mq_send(answer_queue,(char*)&answer,sizeof(answer),1);
+        if(mq_send(answer_queue,(char*)&answer,sizeof(answer),1)==-1){
+            perror("mq_send");
+            pthread_exit(NULL);
+        }
         mq_close(answer_queue);
         break;
     case 3:
         printf("delete_key\n");
         answer.resultado = delete_key(mensaje->clave);
-        mq_send(answer_queue,(char*)&answer,sizeof(answer),1);
+        if(mq_send(answer_queue,(char*)&answer,sizeof(answer),1)==-1){
+            perror("mq_send");
+            pthread_exit(NULL);
+        }
         mq_close(answer_queue);
         break;
     case 4:
         printf("modify_value\n");
         answer.resultado = modify_value(mensaje->clave, mensaje->value1, mensaje->N_value2, mensaje->V_value2);
-        mq_send(answer_queue,(char*)&answer,sizeof(answer),1);
+        if(mq_send(answer_queue,(char*)&answer,sizeof(answer),1)==-1){
+            perror("mq_send");
+            pthread_exit(NULL);
+        }
         mq_close(answer_queue);
         break;
     case 5:
         printf("exist\n");
         answer.resultado = exist(mensaje->clave);
-        mq_send(answer_queue,(char*)&answer,sizeof(answer),1);
+        if(mq_send(answer_queue,(char*)&answer,sizeof(answer),1)==-1){
+            perror("mq_send");
+            pthread_exit(NULL);
+        }
         mq_close(answer_queue);
         break;
     }
