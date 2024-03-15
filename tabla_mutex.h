@@ -14,6 +14,9 @@ typedef struct tb_mtx_item {
 typedef struct tabla_mutex {
     tb_mtx_item **items; // Array de punteros (dinámico)
     int count; // Número de elementos
+    pthread_mutex_t *mutex; // Puntero al mutex
+    pthread_cond_t *var_cond; // Puntero a la variable de condicion
+    int ocupado; // Variable para evitar despertares espureos
 } tabla_mutex;
 
 tb_mtx_item* create_item(char *file_name);

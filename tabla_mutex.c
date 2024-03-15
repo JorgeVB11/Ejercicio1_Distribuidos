@@ -55,10 +55,3 @@ int tb_mtx_insert(tabla_mutex* tabla, char* file_name) {
     tabla->count++;
     return 0;
 }
-
-int main() {
-    tabla_mutex *tabla = create_table();
-    tb_mtx_insert(tabla, "patata");
-    tb_mtx_insert(tabla, "pollo");
-}
-

@@ -14,8 +14,9 @@ haber ninguna referencia a colas de mensajes.*/
 #include <stdio.h>
 
 int main(){
-    
-    if (init() == -1) {
+    // Varios init para comprobar que funciona correctamente la concurrencia
+    for (int i = 0; i < 50; i++) {
+        if (init() == -1) {
         printf("Fallo en el init\n");
         return -1;
     }
@@ -80,6 +81,9 @@ int main(){
     for (int i = 0; i < N_value2_buffer; i++) {
         printf("Elemento %d de V_value2: %f\n", i, V_value2_buffer[i]);
     }
+    printf("*****************\n");
+    }
+    
     /*
     get_value(13, value1_3, &N_value2_3, V_value2_3);
     printf("value1: %s\n", value1_3);

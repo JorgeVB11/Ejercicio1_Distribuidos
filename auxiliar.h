@@ -1,3 +1,6 @@
+#ifndef AUXILIAR_H
+#define AUXILIAR_H
+
 #include <fcntl.h>
 #include <mqueue.h>
 #include <sys/stat.h>
@@ -8,8 +11,8 @@
 #define MQ_NAME "/SERVER_QUEUE_075"
 
 // SERVER
-const char *FILES_PATH = "./server_files/";
-const char *FILE_ENDING = ".tupla";
+#define FILES_PATH "./server_files/"
+#define FILE_ENDING ".tupla"
 
 // CLIENTE
 
@@ -36,12 +39,6 @@ struct tupla
     int N_value2;
     double V_value2[32];
 };
-char* get_file_name(int key);
-int write_file (char* file_name, struct tupla *tupla);
-int read_file(char *file_name, struct tupla *tupla);
 
 
-void gestionar_peticion(Mensaje mensaje);
-
-struct mq_attr atributos;//lo declaro aquí para que sea global y asigno valores en el main() para que no haya problemas.
-struct mq_attr atributos_respuesta;
+#endif

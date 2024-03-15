@@ -4,6 +4,9 @@
         "stat.h": "c",
         "fcntl.h": "c",
         "mqueue.h": "c",
-        "tabla_mutex.h": "c"
+        "tabla_mutex.h": "c",
+        "types.h": "c",
+        "stdio.h": "c",
+        "proxy_server.h": "c"
     }
 }

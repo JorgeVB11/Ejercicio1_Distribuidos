@@ -32,6 +32,7 @@ int init()
         return -1;
     }
     mq_close(queue);
+    struct mq_attr atributos_respuesta;
     atributos_respuesta.mq_flags = 0;
     atributos_respuesta.mq_maxmsg = 10; // no sé si hay nº max de mensajes pongo este por poner algo. */
     atributos_respuesta.mq_curmsgs = 0;
@@ -56,7 +57,7 @@ int set_value(int key, char *value1, int N_value2, double *V_value2)
     {
         return -1;
     }
-    mqd_t queue = mq_open(MQ_NAME, O_CREAT | O_WRONLY, 0666, &atributos);
+    mqd_t queue = mq_open(MQ_NAME, O_WRONLY);
     ;
     if (queue == -1)
     {
@@ -197,7 +198,7 @@ int modify_value(int key, char *value1, int N_value2, double *V_value2)
 }
 int exist(int key)
 {
-    mqd_t queue = mq_open(MQ_NAME, O_CREAT | O_WRONLY, 0666, &atributos);
+    mqd_t queue = mq_open(MQ_NAME, O_WRONLY);
     ;
     if (queue == -1)
     {
