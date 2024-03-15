@@ -17,9 +17,9 @@ int main(){
     // Varios init para comprobar que funciona correctamente la concurrencia
     for (int i = 0; i < 50; i++) {
         if (init() == -1) {
-        printf("Fallo en el init\n");
-        return -1;
-    }
+            printf("Fallo en el init\n");
+            return -1;
+        }
     char value1[] = "Sociedad";
     double V_value2[] = {1.324, 22.2, 432.1};
     if (set_value(13, value1, 3, V_value2) == -1) {

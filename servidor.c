@@ -53,7 +53,10 @@ int main()
     while (1)
     {
         char buffer[sizeof(Mensaje)];
-        mq_receive(server_queue, buffer, sizeof(Mensaje), NULL);
+        if(mq_receive(server_queue, buffer, sizeof(Mensaje), NULL)==-1){
+            perror("mq_receive");
+            return -1;
+        }
         Mensaje mensaje;
         memcpy(&mensaje, buffer, sizeof(Mensaje));
 

@@ -44,7 +44,11 @@ int init()
         return -1;
     }
     char buffer[sizeof(Respuesta)];
-    mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL);
+    if (mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL) == -1)
+    {
+        perror("mq_receive");
+        return -1;
+    }
     mq_close(cola_cliente);
     Respuesta respuesta;
     memcpy(&respuesta, buffer, sizeof(Respuesta));
@@ -75,7 +79,11 @@ int set_value(int key, char *value1, int N_value2, double *V_value2)
         struct_to_send.V_value2[i] = V_value2[i];
     }
     sprintf(struct_to_send.cola_respuesta, "/cliente_%d_%ld", getpid(), pthread_self());
-    mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
+    if (mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1) == -1)
+    {
+        perror("mq_send");
+        return -1;
+    }
     mq_close(queue);
     mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
     if (cola_cliente == -1)
@@ -84,7 +92,10 @@ int set_value(int key, char *value1, int N_value2, double *V_value2)
         return -1;
     }
     char buffer[sizeof(Respuesta)];
-    mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL);
+    if (mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL)==-1){
+        perror("mq_receive");
+        return -1;
+    }
     mq_close(cola_cliente);
     Respuesta respuesta;
     memcpy(&respuesta, buffer, sizeof(Respuesta));
@@ -109,7 +120,10 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2)
         struct_to_send.V_value2[i] = V_value2[i];
     }
     sprintf(struct_to_send.cola_respuesta, "/cliente_%d_%ld", getpid(), pthread_self());
-    mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
+    if (mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1)== -1){
+        perror("mq_send");
+        return -1;
+    }
     mq_close(queue);
     mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
     if (cola_cliente == -1)
@@ -118,7 +132,10 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2)
         return -1;
     }
     char buffer[sizeof(Respuesta)];
-    mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL);
+    if(mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL)==-1){
+        perror("mq_receive");
+        return -1;
+    }
     mq_close(cola_cliente);
     Respuesta respuesta;
     memcpy(&respuesta, buffer, sizeof(Respuesta));
@@ -144,7 +161,10 @@ int delete_key(int key)
     struct_to_send.cod_operacion = 3;
     struct_to_send.clave = key;
     sprintf(struct_to_send.cola_respuesta, "/cliente_%d_%ld", getpid(), pthread_self());
-    mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
+    if (mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1)==-1){
+        perror("mq_send");
+        return -1;
+    };
     mq_close(queue);
     mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
     if (cola_cliente == -1)
@@ -153,7 +173,10 @@ int delete_key(int key)
         return -1;
     }
     char buffer[sizeof(Respuesta)];
-    mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL);
+    if (mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL)==-1){
+        perror("mq_receive");
+        return -1;
+    }
     mq_close(cola_cliente);
     Respuesta respuesta;
     memcpy(&respuesta, buffer, sizeof(Respuesta));
@@ -182,7 +205,10 @@ int modify_value(int key, char *value1, int N_value2, double *V_value2)
         struct_to_send.V_value2[i] = V_value2[i];
     }
     sprintf(struct_to_send.cola_respuesta, "/cliente_%d_%ld", getpid(), pthread_self());
-    mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
+    if(mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1)==-1){
+        perror("mq_send");
+        return -1;
+    }
     mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
     if (cola_cliente == -1)
     {
@@ -190,7 +216,10 @@ int modify_value(int key, char *value1, int N_value2, double *V_value2)
         return -1;
     }
     char buffer[sizeof(Respuesta)];
-    mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL);
+    if(mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL)==-1){
+        perror("mq_receive");
+        return -1;
+    }
     mq_close(cola_cliente);
     Respuesta respuesta;
     memcpy(&respuesta, buffer, sizeof(Respuesta));
@@ -209,7 +238,10 @@ int exist(int key)
     struct_to_send.cod_operacion = 5;
     struct_to_send.clave = key;
     sprintf(struct_to_send.cola_respuesta, "/cliente_%d_%ld", getpid(), pthread_self());
-    mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
+    if(mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1)==-1){
+        perror("mq_send");
+        return -1;
+    }
     mq_close(queue);
     mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
     if (cola_cliente == -1)
@@ -218,7 +250,10 @@ int exist(int key)
         return -1;
     }
     char buffer[sizeof(Respuesta)];
-    mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL);
+    if(mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL)==-1){
+        perror("mq_receive");
+        return -1;
+    }
     mq_close(cola_cliente);
     Respuesta respuesta;
     memcpy(&respuesta, buffer, sizeof(Respuesta));
