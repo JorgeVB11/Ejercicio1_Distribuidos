@@ -55,7 +55,7 @@ int main()
         char buffer[sizeof(Mensaje)];
         mq_receive(server_queue, buffer, sizeof(Mensaje), NULL);
         Mensaje mensaje;
-        memcpy(&mensaje, buffer, sizeof(Mensaje));
+        memmove(&mensaje, buffer, sizeof(Mensaje));
 
         // Creamos el hilo
         pthread_t hilo;

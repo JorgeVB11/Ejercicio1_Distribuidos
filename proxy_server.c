@@ -191,6 +191,7 @@ int set_value(int key, char *value1, int N_value2, double *V_value2)
     if (access(file_name, F_OK) == 0)
     {
         printf("La tupla ya existe");
+        free(file_name);
         return -1;
     }
 
@@ -231,6 +232,7 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2)
     {
         fprintf(stderr, "Error en la linea %d:\n", __LINE__);
         printf("Ocurrió un error al leer el fichero %s\n", file_name);
+        free(file_name);
         return -1;
     }
 
@@ -262,6 +264,7 @@ int delete_key(int key)
         free(file_name);
         return -1;
     }
+    free(file_name);
     return 0;
 }
 

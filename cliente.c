@@ -15,18 +15,19 @@ haber ninguna referencia a colas de mensajes.*/
 
 int main(){
     // Varios init para comprobar que funciona correctamente la concurrencia
-    for (int i = 0; i < 50; i++) {
-        if (init() == -1) {
-        printf("Fallo en el init\n");
-        return -1;
+    if (init() == -1) {
+    printf("Fallo en el init\n");
+    return -1;
     }
-    char value1[] = "Sociedad";
+
+    char value1[] = "Prueba1";
     double V_value2[] = {1.324, 22.2, 432.1};
     if (set_value(13, value1, 3, V_value2) == -1) {
         printf("Error en el set_value");
         return -1;
     }
-    char value1_2 [] = "Pepperoni";
+
+    char value1_2 [] = "Prueba Borrada";
     double V_value2_2[] = {32.2, 32.1, 3232.12, -12.0};
     if (set_value(17, value1_2, 4, V_value2_2) == -1) {
         printf("Error en el set_value");
@@ -50,6 +51,7 @@ int main(){
     char value1_buffer[256];
     int N_value2_buffer;
     double V_value2_buffer[32];
+
     if (get_value(13, value1_buffer, &N_value2_buffer, V_value2_buffer) == -1) {
         printf("Error en el get_value\n");
         return -1;
@@ -63,7 +65,7 @@ int main(){
     
 
 
-    char value1_3[] = "Leganes";
+    char value1_3[] = "Prueba2";
     int N_value2_3 = 2;
     double V_value2_3[] = {6.5, 3.1223};
 
@@ -82,32 +84,5 @@ int main(){
         printf("Elemento %d de V_value2: %f\n", i, V_value2_buffer[i]);
     }
     printf("*****************\n");
-    }
-    
-    /*
-    get_value(13, value1_3, &N_value2_3, V_value2_3);
-    printf("value1: %s\n", value1_3);
-    printf("N_value2: %d\n", N_value2_3);
-    for (int i = 0; i < N_value2_3; i++) {
-        printf("Elemento %d de V_value2: %f\n", i, V_value2_3[i]);
-    }
-
-    
-
-
-    double V_value2_4[] = {3.21, 75.2, 342.2};
-    modify_value(13, "JUAN", 3, V_value2_4);
-    char value1_4[256];
-    int N_value2_4;
-    double V_value2_5[32];
-    get_value(13, value1_4, &N_value2_4, V_value2_5);
-    printf("value1: %s\n", value1_4);
-    printf("N_value2: %d\n", N_value2_4);
-    for (int i = 0; i < N_value2_4; i++) {
-        printf("Elemento %d de V_value2: %f\n", i, V_value2_5[i]);
-    }
-    printf("La tupla %d existe: %d\n", 17, exist(13));
-    exist(17);
-    */
     return 0;
-};
+}

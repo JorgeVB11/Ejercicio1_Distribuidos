@@ -24,6 +24,7 @@ typedef struct{
     double V_value2[32];
     char cola_respuesta[128];
 }Mensaje;
+
 typedef struct{
     int clave;
     int resultado;

@@ -47,7 +47,7 @@ int init()
     mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL);
     mq_close(cola_cliente);
     Respuesta respuesta;
-    memcpy(&respuesta, buffer, sizeof(Respuesta));
+    memmove(&respuesta, buffer, sizeof(Respuesta));
     return respuesta.resultado;
 }
 
@@ -87,7 +87,7 @@ int set_value(int key, char *value1, int N_value2, double *V_value2)
     mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL);
     mq_close(cola_cliente);
     Respuesta respuesta;
-    memcpy(&respuesta, buffer, sizeof(Respuesta));
+    memmove(&respuesta, buffer, sizeof(Respuesta));
     return respuesta.resultado;
 }
 int get_value(int key, char *value1, int *N_value2, double *V_value2)
@@ -102,12 +102,7 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2)
     Mensaje struct_to_send;
     struct_to_send.cod_operacion = 2;
     struct_to_send.clave = key;
-    strcpy(struct_to_send.value1, value1);
-    struct_to_send.N_value2 = *N_value2;
-    for (int i = 0; i < *N_value2; i++)
-    {
-        struct_to_send.V_value2[i] = V_value2[i];
-    }
+    
     sprintf(struct_to_send.cola_respuesta, "/cliente_%d_%ld", getpid(), pthread_self());
     mq_send(queue, (char *)&struct_to_send, sizeof(struct_to_send), 1);
     mq_close(queue);
@@ -118,18 +113,23 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2)
         return -1;
     }
     char buffer[sizeof(Respuesta)];
+    
     mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL);
+    
     mq_close(cola_cliente);
     Respuesta respuesta;
-    memcpy(&respuesta, buffer, sizeof(Respuesta));
+
+    memmove(&respuesta, buffer, sizeof(Respuesta));
+
     
     // Copiamos los valores en el sitio corerespondiente
+    
     strcpy(value1, respuesta.value1);
     *N_value2 = respuesta.N_value2;
+    
     for (int i = 0; i < *N_value2; i++) {
         V_value2[i] = respuesta.V_value2[i];
     }
-
     return respuesta.resultado;
 }
 int delete_key(int key)
@@ -156,7 +156,7 @@ int delete_key(int key)
     mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL);
     mq_close(cola_cliente);
     Respuesta respuesta;
-    memcpy(&respuesta, buffer, sizeof(Respuesta));
+    memmove(&respuesta, buffer, sizeof(Respuesta));
     return respuesta.resultado;
 }
 
@@ -193,7 +193,7 @@ int modify_value(int key, char *value1, int N_value2, double *V_value2)
     mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL);
     mq_close(cola_cliente);
     Respuesta respuesta;
-    memcpy(&respuesta, buffer, sizeof(Respuesta));
+    memmove(&respuesta, buffer, sizeof(Respuesta));
     return respuesta.resultado;
 }
 int exist(int key)
@@ -221,6 +221,6 @@ int exist(int key)
     mq_receive(cola_cliente, buffer, sizeof(Respuesta), NULL);
     mq_close(cola_cliente);
     Respuesta respuesta;
-    memcpy(&respuesta, buffer, sizeof(Respuesta));
+    memmove(&respuesta, buffer, sizeof(Respuesta));
     return respuesta.resultado;
 }
