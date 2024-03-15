@@ -40,6 +40,7 @@ int init()
     mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY | O_CREAT, 0666, &atributos_respuesta);
     if (cola_cliente == -1)
     {
+        
         perror("mq_open");
         return -1;
     }
@@ -51,6 +52,7 @@ int init()
         return -1;
     }
     mq_close(cola_cliente);
+    mq_unlink(struct_to_send.cola_respuesta);
     Respuesta respuesta;
     memmove(&respuesta, buffer, sizeof(Respuesta));
     return respuesta.resultado;
@@ -88,9 +90,17 @@ int set_value(int key, char *value1, int N_value2, double *V_value2)
         return -1;
     }
     mq_close(queue);
-    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
+
+
+    struct mq_attr atributos_respuesta;
+    atributos_respuesta.mq_flags = 0;
+    atributos_respuesta.mq_maxmsg = 10; // no sé si hay nº max de mensajes pongo este por poner algo. */
+    atributos_respuesta.mq_curmsgs = 0;
+    atributos_respuesta.mq_msgsize = sizeof(Respuesta);
+    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY | O_CREAT, 0666, &atributos_respuesta);
     if (cola_cliente == -1)
     {
+        printf("eh?\n");
         perror("mq_open");
         return -1;
     }
@@ -100,6 +110,7 @@ int set_value(int key, char *value1, int N_value2, double *V_value2)
         return -1;
     }
     mq_close(cola_cliente);
+    mq_unlink(struct_to_send.cola_respuesta);
     Respuesta respuesta;
     memmove(&respuesta, buffer, sizeof(Respuesta));
     return respuesta.resultado;
@@ -122,7 +133,14 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2)
         return -1;
     }
     mq_close(queue);
-    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
+
+    struct mq_attr atributos_respuesta;
+    atributos_respuesta.mq_flags = 0;
+    atributos_respuesta.mq_maxmsg = 10; // no sé si hay nº max de mensajes pongo este por poner algo. */
+    atributos_respuesta.mq_curmsgs = 0;
+    atributos_respuesta.mq_msgsize = sizeof(Respuesta);
+
+    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY | O_CREAT, 0666, &atributos_respuesta);
     if (cola_cliente == -1)
     {
         perror("mq_open");
@@ -134,6 +152,7 @@ int get_value(int key, char *value1, int *N_value2, double *V_value2)
         return -1;
     }
     mq_close(cola_cliente);
+    mq_unlink(struct_to_send.cola_respuesta);
     Respuesta respuesta;
 
     memmove(&respuesta, buffer, sizeof(Respuesta));
@@ -166,7 +185,14 @@ int delete_key(int key)
         return -1;
     };
     mq_close(queue);
-    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
+
+    struct mq_attr atributos_respuesta;
+    atributos_respuesta.mq_flags = 0;
+    atributos_respuesta.mq_maxmsg = 10; // no sé si hay nº max de mensajes pongo este por poner algo. */
+    atributos_respuesta.mq_curmsgs = 0;
+    atributos_respuesta.mq_msgsize = sizeof(Respuesta);
+
+    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY | O_CREAT, 0666, &atributos_respuesta);
     if (cola_cliente == -1)
     {
         perror("mq_open");
@@ -178,6 +204,7 @@ int delete_key(int key)
         return -1;
     }
     mq_close(cola_cliente);
+    mq_unlink(struct_to_send.cola_respuesta);
     Respuesta respuesta;
     memmove(&respuesta, buffer, sizeof(Respuesta));
     return respuesta.resultado;
@@ -209,7 +236,14 @@ int modify_value(int key, char *value1, int N_value2, double *V_value2)
         perror("mq_send");
         return -1;
     }
-    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
+    mq_close(queue);
+    struct mq_attr atributos_respuesta;
+    atributos_respuesta.mq_flags = 0;
+    atributos_respuesta.mq_maxmsg = 10; // no sé si hay nº max de mensajes pongo este por poner algo. */
+    atributos_respuesta.mq_curmsgs = 0;
+    atributos_respuesta.mq_msgsize = sizeof(Respuesta);
+
+    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY | O_CREAT, 0666, &atributos_respuesta);
     if (cola_cliente == -1)
     {
         perror("mq_open");
@@ -221,6 +255,7 @@ int modify_value(int key, char *value1, int N_value2, double *V_value2)
         return -1;
     }
     mq_close(cola_cliente);
+    mq_unlink(struct_to_send.cola_respuesta);
     Respuesta respuesta;
     memmove(&respuesta, buffer, sizeof(Respuesta));
     return respuesta.resultado;
@@ -243,7 +278,14 @@ int exist(int key)
         return -1;
     }
     mq_close(queue);
-    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY);
+
+    struct mq_attr atributos_respuesta;
+    atributos_respuesta.mq_flags = 0;
+    atributos_respuesta.mq_maxmsg = 10; // no sé si hay nº max de mensajes pongo este por poner algo. */
+    atributos_respuesta.mq_curmsgs = 0;
+    atributos_respuesta.mq_msgsize = sizeof(Respuesta);
+
+    mqd_t cola_cliente = mq_open(struct_to_send.cola_respuesta, O_RDONLY | O_CREAT, 0666, &atributos_respuesta);
     if (cola_cliente == -1)
     {
         perror("mq_open");
@@ -255,6 +297,7 @@ int exist(int key)
         return -1;
     }
     mq_close(cola_cliente);
+    mq_unlink(struct_to_send.cola_respuesta);
     Respuesta respuesta;
     memmove(&respuesta, buffer, sizeof(Respuesta));
     return respuesta.resultado;

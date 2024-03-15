@@ -54,3 +54,5 @@ if __name__ == "__main__":
         if caso_intermedio != caso_base:
             print(f"Los archivos {i} y base no coinciden")
             exit()
+
+    print('\033[92m' + "Test superado correctamente")
