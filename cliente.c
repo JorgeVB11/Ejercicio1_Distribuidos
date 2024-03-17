@@ -19,7 +19,7 @@ int main(){
     printf("Fallo en el init\n");
     return -1;
     }
-
+    
     char value1[] = "Prueba1";
     double V_value2[] = {1.324, 22.2, 432.1};
     if (set_value(13, value1, 3, V_value2) == -1) {

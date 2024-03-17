@@ -317,7 +317,6 @@ void* gestionar_peticion(void *argumento)
     mqd_t answer_queue = mq_open(mensaje->cola_respuesta, O_WRONLY|O_CREAT, 0666, &atributos_respuesta);
     if (answer_queue == -1) {
         perror("mq_open");
-        printf("Esto falla\n");
         pthread_exit(NULL);
     }
     Respuesta answer;

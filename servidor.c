@@ -12,6 +12,7 @@ int ocupado;
 
 int main()
 {
+    init();
     struct mq_attr atributos;
 
 
