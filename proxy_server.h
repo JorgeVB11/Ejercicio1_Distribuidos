@@ -11,8 +11,8 @@
 #include <string.h>
 #include <unistd.h>
 #include <mqueue.h>
+#include <pthread.h>
 #include "auxiliar.h"
-#include "tabla_mutex.h"
 
 char *get_file_name(int key);
 int write_file(char *file_name, struct tupla *tupla);

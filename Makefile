@@ -3,7 +3,7 @@ CFLAGS = -fPIC -Wall -g
 LDFLAGS =
 LDLIBS =
 
-PROXY_SOURCES = lib_claves.c
+PROXY_SOURCES = claves.c
 
 PROXY_OBJECTS = $(PROXY_SOURCES:.c=.o)
 

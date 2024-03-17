@@ -305,9 +305,21 @@ void* gestionar_peticion(void *argumento)
     Mensaje *mensaje = (Mensaje*) argumento;
     printf("Código de operación: %d\n", mensaje->cod_operacion);
     printf("Cola de respuesta: %s\n", mensaje->cola_respuesta);
+
     struct mq_attr atributos_respuesta;
+    atributos_respuesta.mq_flags = 0;
+    atributos_respuesta.mq_maxmsg = 10;
+    atributos_respuesta.mq_msgsize = sizeof(Respuesta);
+    atributos_respuesta.mq_curmsgs = 0;
+
+
     atributos_respuesta.mq_msgsize = sizeof(Respuesta);
     mqd_t answer_queue = mq_open(mensaje->cola_respuesta, O_WRONLY|O_CREAT, 0666, &atributos_respuesta);
+    if (answer_queue == -1) {
+        perror("mq_open");
+        printf("Esto falla\n");
+        pthread_exit(NULL);
+    }
     Respuesta answer;
     switch (mensaje->cod_operacion)
     {
@@ -316,6 +328,7 @@ void* gestionar_peticion(void *argumento)
         answer.resultado = init();
         if(mq_send(answer_queue,(char*)&answer,sizeof(answer),1)==-1){
             perror("mq_send");
+            mq_close(answer_queue);
             pthread_exit(NULL);
         };
         mq_close(answer_queue);
@@ -325,6 +338,7 @@ void* gestionar_peticion(void *argumento)
         answer.resultado = set_value(mensaje->clave, mensaje->value1, mensaje->N_value2, mensaje->V_value2);
         if(mq_send(answer_queue,(char*)&answer,sizeof(answer),1)==-1){
             perror("mq_send");
+            mq_close(answer_queue);
             pthread_exit(NULL);
         }
         mq_close(answer_queue);
@@ -334,6 +348,7 @@ void* gestionar_peticion(void *argumento)
         answer.resultado = get_value(mensaje->clave, answer.value1, &answer.N_value2, answer.V_value2);
         if(mq_send(answer_queue,(char*)&answer,sizeof(answer),1)==-1){
             perror("mq_send");
+            mq_close(answer_queue);
             pthread_exit(NULL);
         }
         mq_close(answer_queue);
@@ -343,6 +358,7 @@ void* gestionar_peticion(void *argumento)
         answer.resultado = delete_key(mensaje->clave);
         if(mq_send(answer_queue,(char*)&answer,sizeof(answer),1)==-1){
             perror("mq_send");
+            mq_close(answer_queue);
             pthread_exit(NULL);
         }
         mq_close(answer_queue);
@@ -352,6 +368,7 @@ void* gestionar_peticion(void *argumento)
         answer.resultado = modify_value(mensaje->clave, mensaje->value1, mensaje->N_value2, mensaje->V_value2);
         if(mq_send(answer_queue,(char*)&answer,sizeof(answer),1)==-1){
             perror("mq_send");
+            mq_close(answer_queue);
             pthread_exit(NULL);
         }
         mq_close(answer_queue);
@@ -361,6 +378,7 @@ void* gestionar_peticion(void *argumento)
         answer.resultado = exist(mensaje->clave);
         if(mq_send(answer_queue,(char*)&answer,sizeof(answer),1)==-1){
             perror("mq_send");
+            mq_close(answer_queue);
             pthread_exit(NULL);
         }
         mq_close(answer_queue);
